@@ -1,0 +1,28 @@
+{
+  "name": "wooblet",
+  "private": true,
+  "workspaces": [
+    "wooblet-web",
+    "wooblet-api"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev -w wooblet-web",
+    "dev:api": "npm run dev -w wooblet-api",
+    "build": "npm run build -w wooblet-api && npm run build -w wooblet-web",
+    "typecheck": "npm run typecheck --workspaces",
+    "test": "npm run test -w wooblet-api",
+    "seed": "npm run seed -w wooblet-api",
+    "setup": "node scripts/setup.mjs",
+    "test:e2e": "playwright test",
+    "e2e:api": "npm run browser-server -w wooblet-api",
+    "dev": "node scripts/dev.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0"
+  },
+  "config": {
+    "mongodbMemoryServer": {
+      "disablePostinstall": true
+    }
+  }
+}
