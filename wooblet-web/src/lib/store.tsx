@@ -30,7 +30,8 @@ const api = createApi({
 });
 const CartSchema = z.object({
   key: z.string(), productId: z.string(), name: z.string(), slug: z.string(), design: z.string(), price: z.number().positive(), quantity: z.number().int().min(1).max(20),
-  customization: z.object({ primaryColor: z.string(), secondaryColor: z.string(), petName: z.string().min(1).max(16), font: z.string() }),
+  // rimColor is optional so bags saved before the rim picker still load.
+  customization: z.object({ primaryColor: z.string(), secondaryColor: z.string(), rimColor: z.string().optional(), petName: z.string().min(1).max(16), font: z.string() }),
 });
 export type CartItem = z.infer<typeof CartSchema>;
 const cartSlice = createSlice({ name: 'cart', initialState: { items: [] as CartItem[] }, reducers: {

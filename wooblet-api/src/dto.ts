@@ -98,6 +98,8 @@ class AddressDto {
 class CustomizationDto {
   @IsString() @MaxLength(40) primaryColor!: string;
   @IsString() @MaxLength(40) secondaryColor!: string;
+  /** Optional so orders placed before the rim picker existed stay valid. */
+  @IsOptional() @IsString() @MaxLength(40) rimColor?: string;
   @IsString() @MinLength(1) @MaxLength(16) petName!: string;
   @IsString() @MaxLength(40) font!: string;
 }
@@ -196,6 +198,7 @@ ApiProperty({ type: () => String, required: true })(AddressDto.prototype, 'posta
 ApiProperty({ type: () => String, required: false })(AddressDto.prototype, 'notes');
 ApiProperty({ type: () => String, required: true })(CustomizationDto.prototype, 'primaryColor');
 ApiProperty({ type: () => String, required: true })(CustomizationDto.prototype, 'secondaryColor');
+ApiProperty({ type: () => String, required: false })(CustomizationDto.prototype, 'rimColor');
 ApiProperty({ type: () => String, required: true })(CustomizationDto.prototype, 'petName');
 ApiProperty({ type: () => String, required: true })(CustomizationDto.prototype, 'font');
 ApiProperty({ type: () => String, required: true })(ItemDto.prototype, 'productId');

@@ -24,6 +24,8 @@ test('pricing uses product records and validates customization', () => {
   const item = { productId: 'product', unitPrice: 1, quantity: 2, customization: { primaryColor: 'Sage', secondaryColor: 'Cream', font: 'Rounded', petName: 'Cooper' } };
   assert.equal(priceItems([item], products)[0].unitPrice, 299);
   assert.throws(() => priceItems([{ ...item, customization: { ...item.customization, primaryColor: 'Invalid' } }], products));
+  assert.throws(() => priceItems([{ ...item, customization: { ...item.customization, rimColor: 'Invalid' } }], products));
+  assert.equal(priceItems([{ ...item, customization: { ...item.customization, rimColor: 'Cream' } }], products)[0].customization.rimColor, 'Cream');
   assert.throws(() => priceItems([item], [{ ...products[0], active: false }]));
 });
 test('nested DTOs reject missing locations, missing customer details and unknown fields', () => {

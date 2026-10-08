@@ -28,7 +28,7 @@ export function priceItems(requested: any[], products: any[]) {
     const product = products.find(p => String(p._id) === item.productId && p.active);
     if (!product) throw new BadRequestException('A product is no longer available.');
     const c = item.customization;
-    if (!product.availableColors.includes(c.primaryColor) || !product.availableColors.includes(c.secondaryColor) || !product.availableFonts.includes(c.font)) throw new BadRequestException(`Invalid customization for ${product.name}.`);
+    if (![c.primaryColor, c.secondaryColor, ...(c.rimColor === undefined ? [] : [c.rimColor])].every(color => product.availableColors.includes(color)) || !product.availableFonts.includes(c.font)) throw new BadRequestException(`Invalid customization for ${product.name}.`);
     return { productId: product._id, productName: product.name, quantity: item.quantity, unitPrice: product.basePrice, customization: c, tagIds: [] };
   });
 }

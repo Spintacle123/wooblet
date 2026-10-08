@@ -1,0 +1,96 @@
+/* Playful WoobleWorks direction: purple, pink, butter yellow, and soft waves. */
+:root { --accent: #6940c9; --ink: #2c1b54; --muted: #756a89; --line: #ece4f6; }
+.announcement { background: #fbd86b; color: #302056; }
+.announcement span { color: #523374; }
+.site-header { background: #2c185c; color: #fff; border-color: #483075; }
+.site-header .maker-brand { color: #fff; }
+.maker-brand-accent { color: #ff8fb9; }
+.site-header .main-nav, .site-header .account-link, .site-header .bag-link, .site-header .icon-btn { color: #fff; }
+.site-header .bag-link { border-color: #654b88; }
+.site-header .account-link { background: #fbd86b; color: #2c185c; border-radius: 30px; padding: 10px 18px; font-weight: 800; }
+.btn { border-radius: 30px; background: #6940c9; border-color: #6940c9; }
+.btn:hover { background: #5130a2; border-color: #5130a2; }
+.btn.outline { color: #5130a2; border-color: #cdbce9; }
+.playful-storefront h1, .playful-storefront h2, .playful-storefront h3, .collection-hero h1, .catalog-page .center-heading h1 { font-family: 'Chewy', var(--font-display), sans-serif; font-weight: 400; letter-spacing: .01em; }
+.playful-storefront { background: #fffdfb; }
+.wonder-hero { position: relative; overflow: hidden; background: #2c185c; color: #fff; padding: 54px 0 110px; }
+.wonder-hero::before { content: ''; position: absolute; width: 700px; height: 750px; right: -80px; top: -120px; background: #48257e; border-radius: 45% 55% 62% 38%; transform: rotate(24deg); }
+.wonder-hero-inner { display: grid; grid-template-columns: .85fr 1.15fr; align-items: center; gap: 45px; position: relative; }
+.wonder-copy { position: relative; z-index: 2; }
+.wonder-copy .eyebrow { color: #dec8ff; font-size: 11px; }
+.wonder-copy h1 { font-size: clamp(62px, 6.8vw, 100px); line-height: .98; margin-bottom: 26px; }
+.wonder-copy h1 em { color: #ff8fb9; }
+.wonder-copy h2 { color: #fbd86b; font-family: var(--font-display); font-size: 23px; line-height: 1.3; font-weight: 800; margin-bottom: 15px; }
+.wonder-copy p { max-width: 380px; color: #e0d3f4; line-height: 1.8; font-size: 15px; margin-bottom: 24px; }
+.wonder-button { background: #f87eac; border-color: #f87eac; color: #2c185c; gap: 20px; }
+.wonder-button:hover { background: #ffa2c5; border-color: #ffa2c5; }
+.wonder-button > span { background: #fff; border-radius: 50%; padding: 5px; display: flex; }
+.wonder-mini-note { display: flex; gap: 12px; align-items: center; color: #fbd86b; font-size: 12px; margin-top: 25px; }
+.wonder-mini-note strong { color: #e0d3f4; font-weight: 500; }
+.wonder-visual { position: relative; min-width: 0; padding: 44px 0; }
+.wonder-visual figure { margin: 0; position: relative; transform: rotate(-5deg); z-index: 1; }
+.wonder-visual figure img { display: block; width: 100%; height: auto; border-radius: 100px 100px 45px 45px; box-shadow: 0 22px 70px #180c3e55; }
+.wonder-visual figcaption { margin-top: 15px; color: #e0d3f4; font-size: 11px; text-align: center; }
+.wonder-orbit { position: absolute; inset: -5% -8%; background: #b09ae9; border-radius: 54% 46% 34% 66%; transform: rotate(14deg); }
+.wonder-spark { position: absolute; z-index: 2; color: #fbd86b; font-size: 55px; }
+.wonder-spark-one { top: -25px; right: 10px; }
+.wonder-spark-two { bottom: -12px; left: -15px; color: #ff8fb9; }
+.wonder-badge { position: absolute; z-index: 3; right: -12px; bottom: 95px; display: flex; align-items: center; gap: 12px; background: #fff; color: #6840be; padding: 15px 22px; border-radius: 18px; box-shadow: 0 8px 30px #28135425; font-size: 12px; transform: rotate(4deg); }
+.wonder-badge strong { color: #2c185c; }
+.wonder-badge-second { bottom: 24px; right: 18px; transform: rotate(-3deg); }
+.wonder-badge-second svg { color: #ed75a0; }
+.wonder-wave { position: absolute; width: 100%; height: 65px; bottom: -1px; left: 0; fill: #fffdfb; }
+.playful-storefront .section-heading h2 { font-size: clamp(38px, 5vw, 58px); }
+.playful-storefront .section-heading h2 em { color: #ed75a0; }
+.playful-storefront .section-heading p { font-size: 15px; }
+.playful-storefront .collection-card { border: 0; background: #f6eefc; border-radius: 26px; box-shadow: none; }
+.playful-storefront .collection-card:nth-child(3n+2) { background: #ffedf3; }
+.playful-storefront .collection-card:nth-child(3n) { background: #fff5d9; }
+.playful-storefront .collection-card h3 { font-size: 29px; }
+.playful-storefront .collection-art { margin: 12px 12px 0; border-radius: 19px; }
+.playful-storefront .collection-card-copy { padding: 22px; }
+.wonder-promo { background: #f87eac; display: grid; grid-template-columns: .9fr 1.1fr; gap: 30px; align-items: center; border-radius: 35px 60px 35px 60px; padding: 45px; position: relative; margin-bottom: 85px; }
+.wonder-promo h2 { color: #fff; font-size: clamp(38px, 4.5vw, 62px); }
+.wonder-promo .eyebrow { color: #54205e; }
+.wonder-promo p { color: #54205e; margin: 22px 0; line-height: 1.8; }
+.wonder-promo .btn { background: #2c185c; border-color: #2c185c; }
+.wonder-promo figure { margin: 0; transform: rotate(3deg); }
+.wonder-promo img { width: 100%; height: auto; display: block; border-radius: 28px; }
+.wonder-promo figcaption { font-size: 11px; color: #54205e; margin-top: 12px; }
+.promo-spark { position: absolute; color: #fbd86b; font-size: 64px; right: 16px; top: -26px; }
+.wonder-values { position: relative; background: #6940c9; padding: 65px 0 75px; border-radius: 50% 50% 0 0 / 25px 25px 0 0; }
+.wonder-values h2 { color: #fff; font-size: 44px; }
+.wonder-values .eyebrow { color: #eadcff; }
+.wonder-value-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+.wonder-value-grid article { background: #f6f0ff; border-radius: 22px; padding: 28px 20px; text-align: center; }
+.wonder-value-grid article:nth-child(even) { background: #ffedf3; }
+.wonder-value-grid svg { color: #d45d92; margin-bottom: 18px; }
+.wonder-value-grid h3 { font-size: 25px; margin-bottom: 12px; }
+.wonder-value-grid p { font-size: 13px; line-height: 1.7; }
+.wonder-last { text-align: center; padding-block: 75px; }
+.wonder-last h2 { font-size: clamp(42px, 5vw, 64px); margin-bottom: 26px; }
+.wonder-last em { color: #e46b9d; }
+.collection-hero { background: #eee5fc; }
+.collection-hero h1 { color: #412274; }
+.site-footer { background: #2c185c; color: #fff; border-color: #4e347e; }
+.site-footer p, .site-footer .footer-signoff, .site-footer .footer-bottom, .site-footer .footer-top > div > a:not(.brand) { color: #e0d3f4; }
+.site-footer .footer-top > div > strong { color: #ffb4d0; }
+@media (max-width: 1000px) { .wonder-hero-inner { gap: 28px; } .wonder-badge { right: 0; } .wonder-copy h1 { font-size: 72px; } .wonder-value-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 760px) { .site-header .main-nav.open { top: 77px; background: #382067; color: #fff; flex-wrap: wrap; } .site-header .account-link { padding: 8px 12px; } .wonder-hero { padding: 35px 0 90px; } .wonder-hero-inner { grid-template-columns: 1fr; gap: 40px; } .wonder-copy h1 { font-size: clamp(58px, 13vw, 80px); } .wonder-copy h2 { font-size: 21px; } .wonder-visual { margin: 0 14px; padding-block: 25px; } .wonder-visual figure img { border-radius: 55px 55px 30px 30px; } .wonder-badge { padding: 12px 16px; bottom: 78px; font-size: 11px; } .wonder-badge-second { bottom: 15px; } .wonder-spark-one { top: -22px; font-size: 38px; } .wonder-promo { grid-template-columns: 1fr; padding: 28px; margin-bottom: 50px; border-radius: 28px; } .wonder-values { padding-block: 45px; } .wonder-values h2 { font-size: 35px; } .wonder-value-grid { gap: 12px; } .wonder-value-grid article { padding: 20px 14px; } .wonder-value-grid h3 { font-size: 22px; } .wonder-value-grid p { font-size: 12px; } .wonder-last { padding-block: 55px; } }
+
+/* Original supplied WoobleWorks logo, preserving its transparency and proportions. */
+.artwork-brand { display: flex; align-items: center; flex-shrink: 0; width: 125px; }
+.artwork-brand img { display: block; width: 100%; height: auto; }
+.artwork-brand.small { width: 100px; }
+.site-header .header-inner { min-height: 104px; height: auto; padding-block: 5px; }
+.site-footer .artwork-brand { width: 200px; margin-bottom: 14px; }
+@media (max-width: 760px) {
+  .artwork-brand { width: 100px; }
+  .site-header .header-inner { min-height: 86px; }
+  .site-header .main-nav.open { top: 86px; }
+  .site-footer .artwork-brand { width: 170px; }
+}
+
+.wooblet-page-brand { display: flex; align-items: center; width: 190px; flex-shrink: 0; }
+.wooblet-page-brand img { display: block; width: 100%; height: auto; }
+@media (max-width: 760px) { .wooblet-page-brand { width: 125px; } }

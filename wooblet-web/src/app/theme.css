@@ -852,3 +852,72 @@ em,.hero-copy h1 em { color:#a75d17; }
 @media (prefers-reduced-motion:reduce) { .stat-card,.font-option { transition:none; } .stat-card:hover { transform:none; } }
 .product-label.product-tech-icons { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:7px 10px; }
 .product-tech-icons svg { width:17px; height:17px; }
+
+/* 3D customizer preview. The SVG art keeps the same footprint while WebGL loads. */
+.tag-stage { position:relative; width:100%; height:420px; display:flex; align-items:center; justify-content:center; }
+.tag-stage::before { content:''; position:absolute; left:22%; right:22%; bottom:50px; height:22px; border-radius:50%; background:radial-gradient(closest-side,#48271926,transparent); filter:blur(4px); pointer-events:none; }
+.custom-preview .tag-stage > .tag-art { width:100%; height:100%; min-height:0; max-height:360px; }
+.tag-3d-canvas { z-index:1; }
+.tag-stage-controls { position:absolute; z-index:2; left:0; right:0; bottom:-4px; display:flex; justify-content:center; align-items:center; gap:16px; font-size:12px; color:#8d7a6c; }
+.tag-stage-controls > span,.tag-stage-controls > button { display:inline-flex; align-items:center; gap:6px; }
+.tag-stage-controls > button { background:#fff; border:1px solid #ebd8b6; border-radius:999px; padding:7px 13px; color:#75471f; font-weight:700; font-size:12px; }
+.tag-stage-controls > button:hover { border-color:#d8bc98; background:#fff7e4; }
+@media (max-width:760px) {
+ .tag-stage { height:320px; }
+ .tag-stage::before { bottom:48px; }
+ .custom-preview .tag-stage > .tag-art { max-height:260px; }
+}
+
+/* Tag lettering fonts, shared with the 3D preview's extruded letters. */
+@font-face { font-family:'Wooblet Rounded'; src:url('/fonts/tag/fredoka-latin-600-normal.woff') format('woff'); font-weight:100 900; font-display:swap; }
+@font-face { font-family:'Wooblet Classic'; src:url('/fonts/tag/roboto-slab-latin-700-normal.woff') format('woff'); font-weight:100 900; font-display:swap; }
+@font-face { font-family:'Wooblet Playful'; src:url('/fonts/tag/chewy-latin-400-normal.woff') format('woff'); font-weight:100 900; font-display:swap; }
+/* 14 colors per picker: let swatches wrap, and outline light ones like White. */
+.color-picker > div { flex-wrap:wrap; gap:10px; }
+.swatch { box-shadow:inset 0 0 0 1px #4827191f; }
+
+/* WoobleWorks collection storefront. */
+.maker-brand { font-size: 28px; letter-spacing: -1px; line-height: 1; }
+.maker-brand-accent { color: #f3bb69; }
+.maker-brand small { display: block; margin-top: 8px; font-size: 8px; letter-spacing: 2.5px; font-weight: 600; }
+.maker-hero { position: relative; margin-top: 36px; padding: 70px 60px; border-radius: 28px; background: #f6ead7; overflow: hidden; }
+.maker-hero h1 { position: relative; z-index: 1; font-size: clamp(46px, 6vw, 82px); max-width: 720px; }
+.maker-hero p { position: relative; z-index: 1; max-width: 540px; margin: 24px 0; line-height: 1.8; }
+.maker-hero .btn { position: relative; z-index: 1; }
+.maker-hero-shapes { position: absolute; right: 35px; top: 40px; display: grid; gap: 14px; transform: rotate(12deg); }
+.maker-hero-shapes span { display: grid; place-items: center; width: 150px; height: 130px; background: #e2d9f3; border-radius: 35px; font-size: 65px; font-weight: 800; color: #69568a; }
+.maker-hero-shapes span:nth-child(2) { background: #f5d1c9; color: #ab5f4f; margin-left: 55px; }
+.maker-hero-shapes span:nth-child(3) { background: #dde8d0; color: #688451; }
+.collection-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.collection-card { overflow: hidden; border: 1px solid var(--line); border-radius: 22px; background: var(--paper); transition: transform .2s; }
+.collection-card:hover { transform: translateY(-4px); }
+.collection-art { height: 240px; display: grid; place-items: center; }
+.collection-art > span { font-size: 88px; font-weight: 800; color: #514236; }
+.collection-art svg { width: 225px; height: 225px; }
+.collection-card-copy { padding: 24px; }
+.collection-card-copy small { font-size: 9px; letter-spacing: 1.5px; color: var(--accent); font-weight: 800; }
+.collection-card-copy h3 { display: flex; align-items: center; justify-content: space-between; margin: 12px 0; font-size: 24px; }
+.collection-card-copy p { line-height: 1.7; margin: 0; font-size: 14px; }
+.collection-navigation { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 42px; }
+.collection-navigation a { padding: 10px 16px; border: 1px solid var(--line); border-radius: 30px; font-size: 13px; background: var(--paper); }
+.collection-navigation a[aria-current="page"] { background: var(--ink); color: white; border-color: var(--ink); }
+.maker-feature { display: grid; grid-template-columns: 1fr 300px; gap: 48px; align-items: center; padding: 48px; margin-bottom: 80px; background: #f6ead7; border-radius: 28px; }
+.maker-feature p { max-width: 580px; line-height: 1.8; margin-block: 22px; }
+.maker-feature > svg { width: 100%; height: auto; }
+@media (max-width: 1000px) { .maker-hero-shapes { opacity: .2; right: -40px; } .collection-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .maker-hero { padding: 42px 24px; margin-top: 20px; } .collection-grid { grid-template-columns: 1fr; gap: 20px; } .maker-feature { grid-template-columns: 1fr; padding: 28px; gap: 16px; } .maker-feature > svg { width: 200px; justify-self: center; } .maker-brand { font-size: 23px; } .collection-navigation { gap: 8px; } .collection-navigation a { font-size: 12px; padding: 8px 12px; } }
+
+/* Generated sample photography for collection cards and landing pages. */
+.collection-art { position: relative; height: auto; aspect-ratio: 3 / 2; overflow: hidden; }
+.collection-art img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .3s ease; }
+.collection-card:hover .collection-art img { transform: scale(1.035); }
+.collection-art > .collection-image-label { position: absolute; left: 14px; bottom: 14px; width: auto; padding: 6px 10px; background: rgba(255,253,248,.92); border-radius: 20px; font-size: 10px; font-weight: 700; color: var(--ink); }
+.collection-hero { display: grid; grid-template-columns: .85fr 1.15fr; align-items: center; gap: 44px; margin-bottom: 56px; background: #f6ead7; border-radius: 28px; overflow: hidden; }
+.collection-hero-copy { padding: 42px 0 42px 42px; }
+.collection-hero-copy h1 { font-size: clamp(38px, 4.5vw, 62px); }
+.collection-hero-copy p { margin-block: 24px; line-height: 1.8; }
+.collection-status { display: block; margin-bottom: 24px; color: var(--accent); font-size: 12px; font-weight: 800; }
+.collection-hero-image { margin: 0; background: #f5efe5; align-self: stretch; display: flex; flex-direction: column; justify-content: center; }
+.collection-hero-image img { width: 100%; height: auto; display: block; }
+.collection-hero-image figcaption { padding: 12px 18px; font-size: 11px; color: var(--muted); }
+@media (max-width: 760px) { .collection-hero { grid-template-columns: 1fr; gap: 0; } .collection-hero-copy { padding: 30px 24px; } }

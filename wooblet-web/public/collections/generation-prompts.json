@@ -1,0 +1,12 @@
+{
+  "mode": "built-in image_gen",
+  "sharedPrompt": "Use case: product-mockup. Asset type: collection landing page and category card sample image for WoobleWorks, a playful 3D printing shop. Style: premium realistic studio product photography, visible subtle FDM layer lines and matte PLA texture, polished editorial composition. Scene: seamless warm ivory backdrop and tabletop, pastel sculptural low display plinths. Lighting: soft daylight from upper left, natural gentle contact shadows. Composition: landscape 3:2 image, products centered with generous margins, all products fully visible and usable in square center crops. Matching style across a collection of six images. No overlays, no interface, no watermarks, no logos, no other text. These are sample product concepts.",
+  "subjects": {
+    "wooblets": "Three personalized 3D printed pet identification tags: a golden yellow bone with blue raised rim and white name MAX, a cream paw with cocoa raised lettering PUDDING, a blush pink heart with white name LILY. Each has a realistic metal split ring. No QR graphics.",
+    "clickers": "A small collection of chunky playful mechanical fidget clickers made from 3D printed plastic: a lavender flower with yellow push button center, a blush rounded square with cream keycap, and a sage paw-shaped clicker. Believable tactile keycap mechanisms.",
+    "letters": "Freestanding chunky 3D printed decorative letters A, B and C in peach, lavender and butter yellow, arranged as sculptural desk decor with visible fine print layers.",
+    "characters": "Three original charming 3D printed character figurines: a little lavender round-bodied smiling monster with tiny horns, a peach smiling star character with stubby legs, and a cream rounded robot. Original designs, no existing franchise characters.",
+    "cute-animals": "Three cute small 3D printed animal figurines: a peach chubby cat, a sage green tiny frog, and a butter yellow sitting bear, simple rounded forms, tiny dark eyes, playful shelf companions.",
+    "lamps": "Two sculptural 3D printed decorative lamps: a cream mushroom lamp with softly glowing warm amber underside, and a peach ribbed dome lamp with a small cylindrical base. Realistic translucent printed shade texture, warm cozy glow."
+  }
+}

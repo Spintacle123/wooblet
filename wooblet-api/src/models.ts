@@ -44,7 +44,7 @@ const orderSchema = new Schema({
   customer: { fullName: String, email: String, phone: String },
   shippingAddress: { addressLine: String, barangay: String, cityMunicipality: String, province: String, postalCode: String, notes: String },
   items: [{ productId: { type: Schema.Types.ObjectId, ref: 'Product' }, productName: String, quantity: Number, unitPrice: Number,
-    customization: { primaryColor: String, secondaryColor: String, petName: String, font: String }, tagIds: [{ type: Schema.Types.ObjectId, ref: 'Tag' }] }],
+    customization: { primaryColor: String, secondaryColor: String, rimColor: String, petName: String, font: String }, tagIds: [{ type: Schema.Types.ObjectId, ref: 'Tag' }] }],
   subtotal: Number, shippingFee: Number, total: Number,
   payment: { method: { type: String, default: 'QRPH' }, status: { type: String, enum: ['AWAITING_PAYMENT', 'PAYMENT_VERIFICATION', 'PAID', 'PAYMENT_ISSUE'], default: 'AWAITING_PAYMENT' }, verifiedAt: Date, verifiedBy: { type: Schema.Types.ObjectId, ref: 'User' } },
   status: { type: String, enum: ['AWAITING_PAYMENT', 'PAID', 'IN_PRODUCTION', 'READY_TO_SHIP', 'SHIPPED', 'COMPLETED', 'CANCELLED'], default: 'AWAITING_PAYMENT' },

@@ -11,7 +11,7 @@ async function start() {
   process.env.JWT_ACCESS_SECRET = randomBytes(32).toString('hex'); process.env.JWT_REFRESH_SECRET = randomBytes(32).toString('hex');
   const app = await bootstrap();
   await User.create({ email: 'studio@example.com', firstName: 'Studio', lastName: 'Admin', role: 'ADMIN', emailVerified: true, passwordHash: await bcrypt.hash('browser-test-password', 12) });
-  for (const [name, design] of [['Paw', 'paw'], ['Bone', 'bone'], ['Heart', 'heart'], ['Classic Round', 'round'], ['Cat', 'cat']]) await Product.create({ name: `Wooblet ${name}`, slug: `wooblet-${design}`, design, description: 'A personalized little link home for your best friend.', basePrice: 299, active: true, availableColors: ['Sage', 'Cream', 'Terracotta', 'Lilac', 'Ocean', 'Charcoal'], availableFonts: ['Rounded', 'Classic', 'Playful'] });
+  for (const [name, design] of [['Paw', 'paw'], ['Bone', 'bone'], ['Heart', 'heart'], ['Classic Round', 'round'], ['Cat', 'cat']]) await Product.create({ name: `Wooblet ${name}`, slug: `wooblet-${design}`, design, description: 'A personalized little link home for your best friend.', basePrice: 299, active: true, availableColors: ['Sunshine', 'Royal', 'Deep Blue', 'Vanilla', 'Cocoa', 'Bubblegum', 'Rose', 'White', 'Sage', 'Cream', 'Terracotta', 'Lilac', 'Ocean', 'Charcoal'], availableFonts: ['Rounded', 'Classic', 'Playful'] });
   await Tag.create({ tagCode: 'WB-BROWSER', publicToken: 'browser-test-unclaimed-tag-token', status: 'UNCLAIMED', activationCodeHash: await bcrypt.hash('12345678', 12) });
   const stop = async () => { await app.close(); await mongoose.disconnect(); await mongo.stop(); process.exit(0); };
   process.once('SIGINT', stop); process.once('SIGTERM', stop);
