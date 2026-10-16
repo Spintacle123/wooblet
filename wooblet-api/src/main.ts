@@ -39,14 +39,19 @@ export async function bootstrap() {
   app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
   app.use(cookieParser());
   // CORS runs first so rate-limit and origin rejections remain readable by the browser.
-  app.enableCors({ origin: process.env.FRONTEND_URL, credentials: true });
+  const allowedOrigins = new Set([process.env.FRONTEND_URL!]);
+  if (process.env.NODE_ENV !== 'production') {
+    allowedOrigins.add('http://localhost:3001');
+    allowedOrigins.add('http://127.0.0.1:3001');
+  }
+  app.enableCors({ origin: [...allowedOrigins], credentials: true });
   app.use('/api', rateLimit({ windowMs: 60000, limit: 180, standardHeaders: 'draft-8', legacyHeaders: false }));
   // Session checks (me, refresh, logout) run on every page view; only credential actions get the strict limit.
   app.use(['register', 'login', 'forgot-password', 'reset-password', 'verify-email', 'resend-verification'].map(p => `/api/auth/${p}`), rateLimit({ windowMs: 15 * 60000, limit: 30, standardHeaders: 'draft-8', legacyHeaders: false }));
   app.use('/api/public', rateLimit({ windowMs: 60000, limit: 30, standardHeaders: 'draft-8', legacyHeaders: false }));
   app.use('/api/tags', rateLimit({ windowMs: 60000, limit: 30, standardHeaders: 'draft-8', legacyHeaders: false }));
   app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-    if (!['GET', 'HEAD', 'OPTIONS'].includes(req.method) && req.headers.origin !== process.env.FRONTEND_URL) return res.status(403).json({ message: 'Request origin is not permitted.' });
+    if (!['GET', 'HEAD', 'OPTIONS'].includes(req.method) && !allowedOrigins.has(req.headers.origin ?? '')) return res.status(403).json({ message: 'Request origin is not permitted.' });
     next();
   });
   app.useGlobalFilters(new ErrorFilter());

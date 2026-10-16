@@ -29,6 +29,7 @@ const petSchema = new Schema({
 const tagSchema = new Schema({
   tagCode: { type: String, required: true, unique: true }, publicToken: { type: String, required: true, unique: true },
   activationCodeHash: { type: String, select: false },
+  activationCodeEncrypted: { type: String, select: false },
   ownerId: { type: Schema.Types.ObjectId, ref: 'User', index: true }, petId: { type: Schema.Types.ObjectId, ref: 'Pet', index: true },
   status: { type: String, enum: ['UNASSIGNED', 'UNCLAIMED', 'ACTIVE', 'DISABLED', 'REPLACED'], default: 'UNASSIGNED' },
   activatedAt: Date, replacedByTagId: { type: Schema.Types.ObjectId, ref: 'Tag' }, orderId: { type: Schema.Types.ObjectId, ref: 'Order' },

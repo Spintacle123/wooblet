@@ -1,0 +1,158 @@
+.pet-form-actions {
+  margin-bottom: 25px;
+}
+
+@media (max-width: 760px) {
+  .pet-editor-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pet-editor-workspace .workspace-sidebar {
+    min-width: 0;
+  }
+
+  .pet-editor .page-heading {
+    margin: 18px 0 24px;
+  }
+
+  .pet-editor .page-heading h1 {
+    font-size: clamp(27px, 7vw, 34px);
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+  }
+
+  .pet-editor .page-heading p,
+  .pet-form .panel > p {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .pet-form .panel {
+    padding: 20px 16px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+  }
+
+  .pet-form .panel h2 {
+    font-size: 22px;
+    line-height: 1.25;
+    gap: 8px;
+  }
+
+  .pet-form .panel h2 > svg,
+  .pet-form .notice > svg {
+    flex-shrink: 0;
+  }
+
+  .pet-form .form-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .pet-form .field {
+    min-width: 0;
+    font-size: 14px;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .pet-form .field input,
+  .pet-form .field select,
+  .pet-form .field textarea {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    min-height: 48px;
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .pet-form .photo-upload {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 16px;
+    border-radius: 16px;
+    background: var(--bg);
+    margin-bottom: 22px;
+  }
+
+  .pet-form .photo-upload .pet-avatar {
+    width: 88px;
+    height: 88px;
+    align-self: center;
+  }
+
+  .pet-form .pet-avatar img {
+    object-fit: cover;
+  }
+
+  .pet-form .photo-upload .field {
+    margin: 0;
+  }
+
+  .pet-form input[type="file"] {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .pet-form input[type="file"]::file-selector-button {
+    border: 0;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-right: 8px;
+    background: var(--green);
+    color: white;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .pet-form .field small,
+  .pet-form .toggle-row small {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .pet-form .toggle-row {
+    min-height: 56px;
+    font-size: 14px;
+    gap: 16px;
+  }
+
+  .pet-form .toggle {
+    width: 44px;
+    height: 26px;
+    border-radius: 16px;
+  }
+
+  .pet-form .toggle::before {
+    width: 20px;
+    height: 20px;
+  }
+
+  .pet-form .toggle:checked::before {
+    transform: translateX(18px);
+  }
+
+  .pet-form .toggle:focus-visible {
+    outline: 2px solid var(--green);
+    outline-offset: 4px;
+  }
+
+  .pet-form .notice {
+    align-items: flex-start;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .pet-form-actions {
+    padding: 4px 0 max(16px, env(safe-area-inset-bottom));
+  }
+
+  .pet-form-actions .btn {
+    width: 100%;
+    min-height: 52px;
+    justify-content: center;
+    font-size: 15px;
+  }
+}

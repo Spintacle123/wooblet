@@ -48,7 +48,14 @@ test('complete owner, finder and manual fulfillment journey with ownership bound
     assert.equal((await request(`admin/orders/${order.body._id}/status`, 'PATCH', { status: 'IN_PRODUCTION' }, adminCookies)).status, 200);
     const batch = await request('admin/tags/batch', 'POST', { quantity: 2 }, adminCookies); assert.equal(batch.status, 201); assert.equal(batch.body[0].activationCodeHash, undefined);
     const tag = batch.body[0]; const replacement = batch.body[1];
-    assert.equal((await request(`public/tags/${tag.publicToken}`)).status, 404);
+    assert.equal(tag.activationCodeEncrypted, undefined);
+    const inventory = await request('admin/tags', 'GET', undefined, adminCookies);
+    assert.equal(inventory.body.find((t: any) => t._id === tag._id).activationCode, tag.activationCode);
+    assert.equal(inventory.body.find((t: any) => t._id === tag._id).activationCodeEncrypted, undefined);
+    assert.equal((await request(`admin/tags/${tag._id}/activation-code`, 'POST')).status, 403);
+    assert.equal((await request(`public/tags/${tag.publicToken}`)).body.status, 'UNCLAIMED');
+    assert.equal((await request(`public/tags/${tag.publicToken}/verify-activation-code`, 'POST', { activationCode: 'invalid' })).status, 400);
+    assert.equal((await request(`public/tags/${tag.publicToken}/verify-activation-code`, 'POST', { activationCode: tag.activationCode })).body.valid, true);
     assert.equal((await request(`admin/orders/${order.body._id}/tags`, 'POST', { itemId: order.body.items[0]._id, tagId: tag._id }, adminCookies)).status, 201);
     assert.equal((await request(`admin/orders/${order.body._id}/status`, 'PATCH', { status: 'READY_TO_SHIP' }, adminCookies)).status, 200);
     assert.equal((await request(`public/tags/${tag.publicToken}`)).body.status, 'UNCLAIMED');

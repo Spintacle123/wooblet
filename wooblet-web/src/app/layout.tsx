@@ -6,6 +6,7 @@ import './theme.css';
 import './hero.css';
 import './playful.css';
 import './category-store.css';
+import './pet-editor.css';
 import '@fontsource/chewy/latin-400.css';
 const displayFont = localFont({ src: '../../public/fonts/Nunito.ttf', variable: '--font-display', weight: '200 1000', display: 'swap' });
 export const metadata: Metadata = {

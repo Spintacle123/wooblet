@@ -94,3 +94,115 @@
 .wooblet-page-brand { display: flex; align-items: center; width: 190px; flex-shrink: 0; }
 .wooblet-page-brand img { display: block; width: 100%; height: auto; }
 @media (max-width: 760px) { .wooblet-page-brand { width: 125px; } }
+
+.added-cart-modal { width: min(480px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); overflow-y: auto; margin: auto; padding: 36px 28px 28px; border: 0; border-radius: 24px; background: #fffdfb; color: #2c185c; box-shadow: 0 25px 90px #160b4355; text-align: center; }
+.added-cart-modal::backdrop { background: #20113f99; backdrop-filter: blur(4px); }
+.added-cart-close { position: absolute; top: 14px; right: 14px; color: #756a89; }
+.added-cart-success { display: grid; place-items: center; width: 64px; height: 64px; background: #eee5fc; color: #6940c9; border-radius: 50%; margin: 0 auto 18px; }
+.added-cart-modal h2 { font-size: 32px; margin-bottom: 12px; }
+.added-cart-modal > p { font-size: 14px; line-height: 1.6; }
+.added-cart-item { display: flex; align-items: center; gap: 16px; margin: 24px 0; padding: 16px; background: #fff0f6; border-radius: 16px; text-align: left; }
+.added-cart-art { width: 90px; height: 90px; flex-shrink: 0; }
+.added-cart-art svg { width: 100%; height: 100%; }
+.added-cart-item h3 { font-size: 18px; margin-bottom: 8px; }
+.added-cart-item p, .added-cart-item small { font-size: 12px; line-height: 1.7; }
+.added-cart-actions { display: grid; gap: 12px; }
+
+@keyframes added-cart-appear {
+  from { opacity: 0; transform: translateY(18px) scale(.94); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes added-cart-backdrop-appear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.added-cart-modal[open] { animation: added-cart-appear 260ms cubic-bezier(.22, 1, .36, 1) both; }
+.added-cart-modal[open]::backdrop { animation: added-cart-backdrop-appear 200ms ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  .added-cart-modal[open], .added-cart-modal[open]::backdrop { animation: none; }
+}
+
+/* Wooblet's own landing page, within the WoobleWorks palette. */
+.wooblet-storefront { background: #fffdfb; }
+.wooblet-storefront .hero.pet-hero { background: #2c185c; border: 0; border-radius: 32px; }
+.wooblet-landing-logo { display: block; width: 240px; height: auto; margin-bottom: 24px; }
+.wooblet-storefront .pet-hero-copy h1 { color: #fff; font-family: 'Chewy', var(--font-display), sans-serif; font-weight: 400; letter-spacing: .01em; }
+.wooblet-storefront .pet-hero-copy h1 em { color: #ff8fb9; font-weight: 400; }
+.wooblet-storefront .pet-hero-copy .eyebrow { color: #e3cff9; }
+.wooblet-storefront .pet-hero-copy .eyebrow span { background: #ff8fb9; }
+.wooblet-storefront .pet-hero-lead { color: #fbd86b; }
+.wooblet-storefront .pet-hero-description, .wooblet-storefront .pet-hero-trust { color: #e3cff9; }
+.wooblet-storefront .pet-hero-trust svg { color: #ff8fb9; }
+.wooblet-storefront .pet-hero-buttons .btn { background: #ff8fb9; border-color: #ff8fb9; color: #2c185c; }
+.wooblet-storefront .pet-hero-buttons .btn.outline { background: transparent; color: #fff; border-color: #9d82cb; }
+.wooblet-storefront .pet-hero-photo { border: 8px solid #b09ae9; border-radius: 90px 90px 28px 28px; }
+.wooblet-storefront .pet-hero-note { background: #ff8fb9; border-color: #ff8fb9; color: #2c185c; }
+.wooblet-storefront .pet-hero-sparkle { color: #fbd86b; }
+.wooblet-storefront .pet-hero-connect { background: #fff0f6; border-color: #ffd1e3; color: #2c185c; }
+.wooblet-storefront .pet-hero-connect-icon { background: #ff8fb9; color: #2c185c; }
+.wooblet-storefront .pet-hero-connect small { color: #6940c9; }
+.wooblet-storefront .benefit-strip { background: #eee5fc; border-color: #e2d4f7; color: #513078; margin-top: 28px; }
+.wooblet-storefront h2 { color: #2c185c; font-family: 'Chewy', var(--font-display), sans-serif; font-weight: 400; }
+.wooblet-storefront .how-section { background: #f7efff; }
+.wooblet-storefront .step-icon { background: #eee0ff; color: #6940c9; }
+.wooblet-storefront .cta-section { background: #ff8fb9; }
+.wooblet-storefront .cta-section h2, .wooblet-storefront .cta-section h2 em { color: #2c185c; }
+.wooblet-storefront .collection-section { scroll-margin-top: 110px; }
+@media (max-width: 760px) { .wooblet-landing-logo { width: 180px; } .wooblet-storefront .hero.pet-hero { border-radius: 24px; } }
+
+/* Refined Wooblet layout: open hero, in-page navigation, and clear feature cards. */
+.wooblet-storefront .hero.pet-hero { position: relative; width: 100%; margin: 0; border-radius: 0; }
+.wooblet-storefront .pet-hero .pet-hero-inner { padding-block: 45px 80px; gap: 65px; }
+.wooblet-storefront .pet-hero-copy h1 { font-size: clamp(48px, 5.5vw, 78px); line-height: 1.02; }
+.wooblet-storefront .pet-hero-lead { font-size: 22px; max-width: 400px; line-height: 1.5; }
+.wooblet-storefront .pet-hero-photo { transform: rotate(3deg); border-width: 10px; box-shadow: 0 20px 60px #120a3033; }
+.wooblet-hero-wave { position: absolute; left: 0; bottom: -1px; width: 100%; height: 45px; fill: #fffdfb; }
+.wooblet-page-nav { display: flex; justify-content: center; gap: 10px; padding-block: 20px; }
+.wooblet-page-nav a { padding: 12px 20px; border-radius: 30px; background: #f2eafa; color: #513078; font-weight: 800; font-size: 13px; }
+.wooblet-page-nav a:hover { background: #ffd6e6; }
+.wooblet-storefront .benefit-strip { margin-top: 0; border: 0; background: transparent; }
+.wooblet-storefront .benefit-strip .container { border-bottom: 1px solid #ece3f4; padding-block: 20px 28px; }
+.wooblet-storefront .collection-section { padding-top: 55px; }
+.wooblet-collection-note { display: inline-flex; align-items: center; gap: 8px; padding: 12px 16px; border-radius: 30px; background: #fff0f6; color: #6940c9; font-size: 12px; font-weight: 800; }
+.wooblet-storefront .how-section { padding-block: 65px; border-radius: 45px; margin-inline: 24px; }
+.wooblet-storefront .steps { gap: 24px; max-width: none; }
+.wooblet-storefront .steps article { background: #fffdfb; border-radius: 24px; padding: 32px 24px; text-align: left; }
+.wooblet-storefront .step-icon { margin-left: 0; border-radius: 18px; width: 65px; height: 65px; }
+.wooblet-storefront .steps h3 { color: #2c185c; font-size: 22px; }
+.wooblet-storefront .steps p { font-size: 14px; line-height: 1.8; }
+.wooblet-storefront #how-it-works, .wooblet-storefront #pet-profile, .wooblet-storefront #faq { scroll-margin-top: 110px; }
+.wooblet-storefront .profile-illustration { background: #eee5fc; border-radius: 36px; }
+.wooblet-storefront .demo-profile { box-shadow: 0 20px 45px #38245c15; }
+.wooblet-storefront .illustration-note { background: #ffd6e6; color: #513078; padding: 12px 18px; border-radius: 18px; font-family: var(--font-display); font-size: 12px; }
+.wooblet-storefront .faq-list details { border: 1px solid #eee3f7; background: #fff; border-radius: 16px; padding-inline: 20px; margin-bottom: 12px; }
+.wooblet-storefront .faq-list summary { color: #513078; padding-block: 20px; }
+.wooblet-storefront .cta-section { width: min(1280px, calc(100% - 48px)); margin: 20px auto 65px; border-radius: 36px; }
+@media (max-width: 760px) {
+  .wooblet-storefront .hero.pet-hero { width: 100%; margin: 0; border-radius: 0; }
+  .wooblet-storefront .pet-hero .pet-hero-inner { gap: 32px; padding-block: 32px 65px; }
+  .wooblet-storefront .pet-hero-copy h1 { font-size: 52px; }
+  .wooblet-storefront .pet-hero-lead { font-size: 20px; }
+  .wooblet-page-nav { flex-wrap: wrap; gap: 8px; }
+  .wooblet-page-nav a { font-size: 12px; padding: 10px 14px; }
+  .wooblet-collection-note { display: none; }
+  .wooblet-storefront .how-section { margin-inline: 12px; border-radius: 26px; padding-block: 40px; }
+  .wooblet-storefront .steps article { padding: 24px; }
+  .wooblet-storefront .cta-section { width: calc(100% - 24px); border-radius: 26px; margin-bottom: 40px; }
+}
+
+/* Give the white-and-pink logo proper contrast on NFC setup and finder pages. */
+.finder-layout { background: #f7f2fc; }
+.finder-layout > header { background: transparent; margin-bottom: 20px; padding: 12px 20px 0; }
+.finder-layout > header .artwork-brand { width: 170px; margin: 0 auto; padding: 4px 18px; background: #2c185c; border-radius: 24px; box-shadow: 0 8px 24px #2c185c16; }
+.finder-layout .activation-card { border-color: #e9def4; box-shadow: 0 16px 45px #2c185c08; }
+.finder-layout .activation-card .round-icon { background: #eee5fc; color: #6940c9; }
+.finder-layout .activation-card .eyebrow { color: #6940c9; }
+.finder-layout .activation-card .secure-note { color: #756a89; }
+@media (max-width: 760px) {
+  .finder-layout > header { padding-top: 6px; margin-bottom: 16px; }
+  .finder-layout > header .artwork-brand { width: 145px; border-radius: 20px; padding-inline: 16px; }
+}
+
+/* Wooblet identity for tag activation and public pet pages. */
+.finder-layout > header .wooblet-page-brand { width: 240px; margin: 0 auto; }
+@media (max-width: 760px) { .finder-layout > header .wooblet-page-brand { width: 190px; } }

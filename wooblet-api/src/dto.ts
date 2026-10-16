@@ -67,6 +67,9 @@ export class PetDto {
   @IsOptional() @ValidateNested() @Type(() => PrivacyDto) privacy?: PrivacyDto;
   @IsOptional() @ValidateNested() @Type(() => LostDto) lostMode?: LostDto;
 }
+export class ActivationCodeDto {
+  @IsString() @Matches(/^\d{8}$/) activationCode!: string;
+}
 export class ActivateDto {
   @IsString() @Matches(/^\d{8}$/) activationCode!: string;
   @IsMongoId() petId!: string;

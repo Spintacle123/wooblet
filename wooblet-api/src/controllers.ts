@@ -55,6 +55,7 @@ export class TagsController {
 export class PublicController {
   constructor(@Inject(AppService) private readonly s: AppService) {}
   @Get(':token') get(@Param('token') token: string) { return this.s.publicTag(token); }
+  @Post(':token/verify-activation-code') @ApiBody({ type: D.ActivationCodeDto }) verify(@Param('token') token: string, @Body(new D.DtoPipe(D.ActivationCodeDto)) data: D.ActivationCodeDto) { return this.s.verifyActivationCode(token, data.activationCode); }
   @Post(':token/found-location') @ApiBody({ type: D.FoundDto }) found(@Param('token') token: string, @Body(new D.DtoPipe(D.FoundDto)) data: D.FoundDto) { return this.s.found(token, data); }
 }
 @ApiTags('Products') @Controller('products')
@@ -106,7 +107,8 @@ export class AdminController {
   @Patch('orders/:id/payment') @ApiBody({ type: D.PaymentDto }) payment(@Param('id') id: string, @Body(new D.DtoPipe(D.PaymentDto)) data: D.PaymentDto, @Req() req: AuthRequest) { return this.s.payment(id, req.user.id, data); }
   @Patch('orders/:id/status') @ApiBody({ type: D.OrderStatusDto }) status(@Param('id') id: string, @Body(new D.DtoPipe(D.OrderStatusDto)) data: D.OrderStatusDto) { return this.s.status(id, data); }
   @Post('orders/:id/tags') @ApiBody({ type: D.AssignDto }) assign(@Param('id') id: string, @Body(new D.DtoPipe(D.AssignDto)) data: D.AssignDto) { return this.s.assign(id, data); }
-  @Get('tags') tags() { return Tag.find().populate('petId', 'name').sort({ createdAt: -1 }).limit(500); }
+  @Get('tags') tags() { return this.s.adminTags(); }
+  @Post('tags/:id/activation-code') regenerateCode(@Param('id') id: string) { return this.s.regenerateActivationCode(id); }
   @Post('tags') create() { return this.s.batch(1); }
   @Post('tags/batch') @ApiBody({ type: D.BatchDto }) batch(@Body(new D.DtoPipe(D.BatchDto)) data: D.BatchDto) { return this.s.batch(data.quantity); }
   @Patch('tags/:id/status') @ApiBody({ type: D.TagStatusDto }) tagStatus(@Param('id') id: string, @Body(new D.DtoPipe(D.TagStatusDto)) data: D.TagStatusDto) { return this.s.tagStatus(id, data); }

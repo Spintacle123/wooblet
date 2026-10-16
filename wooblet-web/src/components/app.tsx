@@ -14,15 +14,15 @@ function BrandRibbon() {
 }
 function WoobletCollection() {
   const { data: products, isLoading, error } = useResourceQuery('products');
-  return <main className="storefront">
+  return <main className="storefront wooblet-storefront">
     <section className="hero pet-hero" aria-labelledby="hero-heading">
       <div className="container pet-hero-inner">
-        <div className="pet-hero-copy">
+        <div className="pet-hero-copy"><Image className="wooblet-landing-logo" src="/wooblet-wordmark.webp" alt="Wooblet" width={720} height={216} sizes="240px" />
           <div className="eyebrow"><span /> PERSONALIZED NFC + QR PET TAGS</div>
           <h1 id="hero-heading">Big adventures.<br /><em>Little paws.</em></h1>
-          <p className="pet-hero-lead">Their personality.<br /><strong>A little link home.</strong></p>
+          <p className="pet-hero-lead"><strong>A little link home, wherever they roam.</strong></p>
           <p className="pet-hero-description">A tag with their name on it and a profile behind it. Anyone who finds your pet can tap or scan the tag to see their details and reach you.</p>
-          <div className="pet-hero-buttons"><Link className="btn" href="/shop/wooblets">Find your Wooblet <ArrowRight size={18} /></Link><Link className="btn outline" href="#how-it-works">See how it works <ArrowRight size={18} /></Link></div>
+          <div className="pet-hero-buttons"><Link className="btn" href="#wooblet-products">Find your Wooblet <ArrowRight size={18} /></Link><Link className="btn outline" href="#how-it-works">See how it works <ArrowRight size={18} /></Link></div>
           <div className="pet-hero-trust"><span><Check size={15} /> No app needed</span><span><Check size={15} /> No subscription</span><span><Check size={15} /> Made for your pet</span></div>
         </div>
         <div className="pet-hero-visual">
@@ -34,17 +34,18 @@ function WoobletCollection() {
           <Link className="pet-hero-connect" href="#how-it-works"><span className="pet-hero-connect-icon"><SmartphoneNfc size={25} /></span><span><small>HOW IT WORKS</small><strong>Tap or scan to open their profile</strong></span><ArrowRight size={20} /></Link>
         </div>
       </div>
-      
+      <svg className="wooblet-hero-wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30Q180 0 360 30T720 30T1080 30T1440 30V60H0Z" /></svg>
     </section>
+    <nav className="container wooblet-page-nav" aria-label="On this Wooblet page"><Link href="#wooblet-products">Find their tag</Link><Link href="#how-it-works">How it works</Link><Link href="#pet-profile">Their pet profile</Link><Link href="#faq">Questions?</Link></nav>
     <div className="benefit-strip"><div className="container"><span><SmartphoneNfc size={20} /> One tap to their profile</span><span><ShieldCheck size={20} /> You control what’s shared</span><span><PawPrint size={20} /> Personalized for your pet</span><span><QrCode size={20} /> QR backup included</span></div></div>
-    <section className="section container collection-section">
-      <div className="section-heading"><div><div className="eyebrow">THE COLLECTION</div><h2><span className="heading-slash" aria-hidden="true" />Meet the Wooblets.</h2><p>Five shapes, six colors, and their name on every tag.</p></div><Link href="/shop/wooblets" className="text-link">Shop all tags <ArrowUp /></Link></div>
-      {isLoading ? <Loading /> : error ? <ErrorBox error={error} /> : products?.length ? <div className="product-grid">{products.slice(0, 4).map((p: any, i: number) => <ProductCard key={p._id} product={p} index={i} />)}</div> : <Empty title="Our tags are on their way.">Check back soon for our first collection.</Empty>}
+    <section className="section container collection-section" id="wooblet-products">
+      <div className="section-heading"><div><div className="eyebrow">THE COLLECTION</div><h2><span className="heading-slash" aria-hidden="true" />Meet the Wooblets.</h2><p>Pick their shape, mix their colors, and make it theirs.</p></div><span className="wooblet-collection-note"><SmartphoneNfc size={17} /> NFC + QR in every tag</span></div>
+      {isLoading ? <Loading /> : error ? <ErrorBox error={error} /> : products?.length ? <div className="product-grid">{products.filter((p: any) => !p.category || p.category === 'wooblets').map((p: any, i: number) => <ProductCard key={p._id} product={p} index={i} />)}</div> : <Empty title="Our tags are on their way.">Check back soon for our first collection.</Empty>}
       
     </section>
-    <BrandRibbon />
+
     <section id="how-it-works" className="how-section"><div className="container"><div className="center-heading"><div className="eyebrow">HOW IT WORKS</div><h2><span className="heading-slash" aria-hidden="true" />Three easy steps.</h2><p>No app to install, for you or for whoever finds your pet.</p></div><div className="steps"><article><div className="step-icon"><Sparkles size={30} /><span>01</span></div><h3>Customize their tag.</h3><p>Pick a shape, choose the colors, and add their name. We make the tag and ship it to you.</p></article><article><div className="step-icon"><PawPrint size={30} /><span>02</span></div><h3>Activate their profile.</h3><p>Tap your tag, activate it, and add your pet’s details. Update their information whenever life changes.</p></article><article><div className="step-icon"><SmartphoneNfc size={30} /><span>03</span></div><h3>Anyone can tap or scan.</h3><p>A tap or scan gives a finder a way to reach your family. No app download. No account required.</p></article></div></div></section>
-    <section className="section container feature-section"><div className="profile-illustration"><div className="profile-grid" aria-hidden="true" /><span className="profile-overline">WHAT A FINDER SEES</span><div className="demo-profile"><div className="demo-profile-top"><span>LIVE PET PROFILE</span><QrCode size={15} /></div><div className="demo-photo"><PawPrint size={48} /></div><span className="demo-lost"><span /> I’m lost — help me get home</span><h3>Hi, I’m Cooper.</h3><p>Golden Retriever · Always up for an adventure</p><div className="demo-button"><Heart size={17} /> Contact my family</div><div className="demo-outline"><MapPin size={17} /> Share where you found me</div><small>WOOBLET PET PROFILE</small></div><span className="illustration-note"><ShieldCheck size={18} /> YOU CONTROL WHAT’S SHARED.</span></div><div className="feature-copy"><div className="eyebrow">THE PET PROFILE</div><h2>Update their profile.<br /><em>Keep the same tag.</em></h2><p>Change your phone number, add an allergy, or turn on Lost Mode from your account. Every tap or scan shows the latest details.</p><ul className="feature-list"><li><ShieldCheck /><div><strong>Privacy on your terms</strong><p>Choose exactly which details a finder can see.</p></div></li><li><Heart /><div><strong>Care that goes with them</strong><p>Share allergies, medications, and care instructions.</p></div></li><li><MapPin /><div><strong>A way back home</strong><p>A finder can choose to share where they found your pet.</p></div></li></ul><Link href="/shop/wooblets" className="btn">Shop tags <ArrowRight size={17} /></Link></div></section>
+    <section className="section container feature-section" id="pet-profile"><div className="profile-illustration"><div className="profile-grid" aria-hidden="true" /><span className="profile-overline">WHAT A FINDER SEES</span><div className="demo-profile"><div className="demo-profile-top"><span>LIVE PET PROFILE</span><QrCode size={15} /></div><div className="demo-photo"><PawPrint size={48} /></div><span className="demo-lost"><span /> I’m lost — help me get home</span><h3>Hi, I’m Cooper.</h3><p>Golden Retriever · Always up for an adventure</p><div className="demo-button"><Heart size={17} /> Contact my family</div><div className="demo-outline"><MapPin size={17} /> Share where you found me</div><small>WOOBLET PET PROFILE</small></div><span className="illustration-note"><ShieldCheck size={18} /> YOU CONTROL WHAT’S SHARED.</span></div><div className="feature-copy"><div className="eyebrow">THE PET PROFILE</div><h2>Update their profile.<br /><em>Keep the same tag.</em></h2><p>Change your phone number, add an allergy, or turn on Lost Mode from your account. Every tap or scan shows the latest details.</p><ul className="feature-list"><li><ShieldCheck /><div><strong>Privacy on your terms</strong><p>Choose exactly which details a finder can see.</p></div></li><li><Heart /><div><strong>Care that goes with them</strong><p>Share allergies, medications, and care instructions.</p></div></li><li><MapPin /><div><strong>A way back home</strong><p>A finder can choose to share where they found your pet.</p></div></li></ul><Link href="#wooblet-products" className="btn">Shop tags <ArrowRight size={17} /></Link></div></section>
     <section className="faq-section section container" id="faq"><div><div className="eyebrow">FAQ</div><h2>Common questions</h2><p>How Wooblet works, what finders see, and how to pay.</p></div><div className="faq-list">{[
       ['Does my pet need an app?', 'No. A compatible phone can tap the NFC tag or scan its QR code to open a web page. Finders don’t need an app or a Wooblet account.'],
       ['Is Wooblet a GPS tracker?', 'Wooblet is a smart identification tag. It does not continuously track your pet. Someone who finds them can voluntarily share their current location with you.'],
@@ -52,7 +53,7 @@ function WoobletCollection() {
       ['How do I pay for my Wooblet?', 'Place your order, pay the exact total using our official QR Ph code, then send your Wooblet order number and payment screenshot to our official Facebook page. We verify payment before production.'],
       ['Can my pet have more than one Wooblet?', 'Absolutely. Link several tags to the same pet profile for different collars or a harness. Replacement tags can use the same profile too.'],
     ].map(([q, a]) => <details key={q}><summary>{q}<span>+</span></summary><p>{a}</p></details>)}</div></section>
-    <section className="cta-section"><div className="container cta-inner"><div className="cta-art" aria-hidden="true"><div className="cta-tag-one"><TagArt design="bone" color="Cream" secondary="Charcoal" name="BUDDY" /></div><div className="cta-tag-two"><TagArt design="cat" color="Terracotta" secondary="Charcoal" name="MOCHI" /></div><span className="hero-star">✦</span></div><div className="cta-copy"><div className="eyebrow">READY TO ORDER?</div><h2>Design a tag<br /><em>with their name.</em></h2><Link className="btn" href="/shop/wooblets">Shop tags <ArrowRight size={18} /></Link></div></div></section>
+    <section className="cta-section"><div className="container cta-inner"><div className="cta-art" aria-hidden="true"><div className="cta-tag-one"><TagArt design="bone" color="Cream" secondary="Charcoal" name="BUDDY" /></div><div className="cta-tag-two"><TagArt design="cat" color="Terracotta" secondary="Charcoal" name="MOCHI" /></div><span className="hero-star">✦</span></div><div className="cta-copy"><div className="eyebrow">READY TO ORDER?</div><h2>Design a tag<br /><em>with their name.</em></h2><Link className="btn" href="#wooblet-products">Shop tags <ArrowRight size={18} /></Link></div></div></section>
   </main>;
 }
 function ArrowUp() { return <ArrowRight size={17} style={{ transform: 'rotate(-35deg)' }} />; }
@@ -71,7 +72,7 @@ function CollectionCards() {
   return <div className="collection-grid">{COLLECTIONS.map(c => {
     const comingSoon = c.slug !== 'wooblets';
     const content = <><div className="collection-art" style={{ background: c.color }}><Image src={c.image} alt={c.imageAlt} width={1536} height={1024} sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw" /><span className="collection-image-label">Sample concept</span></div><div className="collection-card-copy"><small>{comingSoon ? 'COMING SOON' : 'SHOP THE COLLECTION'}</small><h3>{c.name}{!comingSoon && <ArrowRight size={20} />}</h3><p>{c.description}</p></div></>;
-    return comingSoon ? <div className="collection-card coming-soon-card" aria-disabled="true" key={c.slug}>{content}</div> : <Link className="collection-card" href={`/shop/${c.slug}`} key={c.slug}>{content}</Link>;
+    return comingSoon ? <div className="collection-card coming-soon-card" aria-disabled="true" key={c.slug}>{content}</div> : <Link className="collection-card" href={c.slug === 'wooblets' ? '/wooblet' : `/shop/${c.slug}`} key={c.slug}>{content}</Link>;
   })}</div>;
 }
 const CATEGORY_DETAILS: Record<string, { headline: string; tagline: string; samples: string[] }> = {
@@ -97,7 +98,7 @@ function CategoryPromos({ collection }: { collection: typeof COLLECTIONS[number]
     const comingSoon = c.slug !== 'wooblets';
     const className = `category-promo category-promo-${i}${comingSoon ? ' coming-soon-card' : ''}`;
     const content = <><div><span className="eyebrow">{comingSoon ? 'COMING SOON' : 'MAKE IT PERSONAL'}</span><h3>{c.name}</h3><p>{CATEGORY_DETAILS[c.slug].tagline}</p><span className="category-promo-link">{comingSoon ? 'Coming soon' : <>Explore collection <ArrowRight size={15} /></>}</span></div><Image src={c.image} alt={c.imageAlt} width={1536} height={1024} sizes="(max-width: 760px) 50vw, 25vw" /></>;
-    return comingSoon ? <div className={className} style={{ background: c.color }} aria-disabled="true" key={c.slug}>{content}</div> : <Link href={`/shop/${c.slug}`} className={className} style={{ background: c.color }} key={c.slug}>{content}</Link>;
+    return comingSoon ? <div className={className} style={{ background: c.color }} aria-disabled="true" key={c.slug}>{content}</div> : <Link href={c.slug === 'wooblets' ? '/wooblet' : `/shop/${c.slug}`} className={className} style={{ background: c.color }} key={c.slug}>{content}</Link>;
   })}</div>;
 }
 function Home() {

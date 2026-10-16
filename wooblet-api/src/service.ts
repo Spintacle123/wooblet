@@ -1,6 +1,6 @@
 import { Injectable, BadRequestException, NotFoundException, UnauthorizedException, ConflictException, ServiceUnavailableException } from '@nestjs/common';
 import { isValidObjectId } from 'mongoose';
-import { randomInt } from 'node:crypto';
+import { randomInt, randomBytes, createHash, createCipheriv, createDecipheriv } from 'node:crypto';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
@@ -10,6 +10,17 @@ import { publicPet, assertOrderTransition, priceItems } from './domain';
 import * as dto from './dto';
 export const safeUser = (u: any) => ({ _id: u._id, email: u.email, firstName: u.firstName, lastName: u.lastName, phone: u.phone, createdAt: u.createdAt, role: u.role, emailVerified: u.emailVerified });
 export function objectId(id: string) { if (!isValidObjectId(id)) throw new BadRequestException('Invalid identifier.'); return id; }
+function activationKey() { return createHash('sha256').update(`wooblet-activation:${process.env.JWT_REFRESH_SECRET}`).digest(); }
+function encryptActivation(code: string) {
+  const iv = randomBytes(12); const cipher = createCipheriv('aes-256-gcm', activationKey(), iv);
+  const encrypted = Buffer.concat([cipher.update(code, 'utf8'), cipher.final()]);
+  return [iv, cipher.getAuthTag(), encrypted].map(b => b.toString('base64')).join('.');
+}
+function decryptActivation(value: string) {
+  const [iv, authTag, encrypted] = value.split('.').map(v => Buffer.from(v, 'base64'));
+  const cipher = createDecipheriv('aes-256-gcm', activationKey(), iv); cipher.setAuthTag(authTag);
+  return Buffer.concat([cipher.update(encrypted), cipher.final()]).toString('utf8');
+}
 @Injectable()
 export class AppService {
   async sendMail(email: string, kind: 'verify-email' | 'reset-password', token: string) {
@@ -92,11 +103,16 @@ export class AppService {
     await Pet.deleteOne({ _id: id, ownerId }); return { message: 'Pet deleted.' };
   }
   async ownerTag(id: string, ownerId: string) { const tag = await Tag.findOne({ _id: objectId(id), ownerId }); if (!tag) throw new NotFoundException('Tag not found.'); return tag; }
+  async verifyActivationCode(token: string, activationCode: string) {
+    const tag = await Tag.findOne({ publicToken: token, status: { $in: ['UNASSIGNED', 'UNCLAIMED'] }, ownerId: { $exists: false } }).select('+activationCodeHash');
+    if (!tag?.activationCodeHash || !await bcrypt.compare(activationCode, tag.activationCodeHash)) throw new BadRequestException('The activation code is incorrect or this tag is unavailable.');
+    return { valid: true };
+  }
   async activate(token: string, ownerId: string, data: dto.ActivateDto) {
     const pet = await this.pet(data.petId, ownerId);
-    const tag = await Tag.findOne({ publicToken: token, status: 'UNCLAIMED' }).select('+activationCodeHash');
+    const tag = await Tag.findOne({ publicToken: token, status: { $in: ['UNASSIGNED', 'UNCLAIMED'] }, ownerId: { $exists: false } }).select('+activationCodeHash');
     if (!tag || !tag.activationCodeHash || !await bcrypt.compare(data.activationCode, tag.activationCodeHash)) throw new BadRequestException('The activation code is incorrect or this tag is unavailable.');
-    const activated = await Tag.findOneAndUpdate({ _id: tag._id, status: 'UNCLAIMED', ownerId: { $exists: false } }, { $set: { ownerId, petId: pet._id, status: 'ACTIVE', activatedAt: new Date() }, $unset: { activationCodeHash: 1 } }, { new: true });
+    const activated = await Tag.findOneAndUpdate({ _id: tag._id, status: { $in: ['UNASSIGNED', 'UNCLAIMED'] }, ownerId: { $exists: false } }, { $set: { ownerId, petId: pet._id, status: 'ACTIVE', activatedAt: new Date() }, $unset: { activationCodeHash: 1, activationCodeEncrypted: 1 } }, { new: true });
     if (!activated) throw new ConflictException('This tag has already been claimed.');
     return activated;
   }
@@ -110,8 +126,8 @@ export class AppService {
   }
   async publicTag(token: string) {
     const tag = await Tag.findOne({ publicToken: token });
-    if (!tag || tag.status === 'UNASSIGNED') throw new NotFoundException('Wooblet not found.');
-    if (tag.status === 'UNCLAIMED') return { status: 'UNCLAIMED', tagCode: tag.tagCode };
+    if (!tag) throw new NotFoundException('Wooblet not found.');
+    if (tag.status === 'UNCLAIMED' || tag.status === 'UNASSIGNED') return { status: 'UNCLAIMED', tagCode: tag.tagCode };
     if (tag.status !== 'ACTIVE') return { status: tag.status, tagCode: tag.tagCode };
     const pet = await Pet.findById(tag.petId).lean();
     if (!pet) throw new NotFoundException('Pet profile unavailable.');
@@ -153,15 +169,29 @@ export class AppService {
     if (!updated) throw new ConflictException('Order was updated by another administrator.');
     return updated;
   }
+  async adminTags() {
+    const tags = await Tag.find().select('+activationCodeEncrypted').populate('petId', 'name').sort({ createdAt: -1 }).limit(500).lean();
+    return tags.map(({ activationCodeEncrypted, ...tag }) => {
+      let activationCode: string | undefined;
+      if (tag.status === 'UNASSIGNED' && activationCodeEncrypted) { try { activationCode = decryptActivation(activationCodeEncrypted); } catch { /* Admin can regenerate if the encryption key changed. */ } }
+      return { ...tag, activationCode };
+    });
+  }
+  async regenerateActivationCode(id: string) {
+    const activationCode = String(randomInt(0, 100000000)).padStart(8, '0');
+    const tag = await Tag.findOneAndUpdate({ _id: objectId(id), status: 'UNASSIGNED', ownerId: { $exists: false } }, { $set: { activationCodeHash: await bcrypt.hash(activationCode, 12), activationCodeEncrypted: encryptActivation(activationCode) } });
+    if (!tag) throw new BadRequestException('Only unassigned, unclaimed inventory can receive a new code.');
+    return { activationCode };
+  }
   async batch(quantity: number) {
     const output = [];
     for (let i = 0; i < quantity; i++) {
       const activationCode = String(randomInt(0, 100000000)).padStart(8, '0');
       const publicToken = randomToken();
-      const tag = await Tag.create({ tagCode: `WB-${randomToken().slice(0, 8).toUpperCase()}`, publicToken, activationCodeHash: await bcrypt.hash(activationCode, 12), status: 'UNASSIGNED' });
+      const tag = await Tag.create({ tagCode: `WB-${randomToken().slice(0, 8).toUpperCase()}`, publicToken, activationCodeHash: await bcrypt.hash(activationCode, 12), activationCodeEncrypted: encryptActivation(activationCode), status: 'UNASSIGNED' });
       output.push({ ...tag.toObject(), activationCode, publicUrl: `${process.env.FRONTEND_URL}/t/${publicToken}` });
     }
-    return output.map(({ activationCodeHash, ...tag }) => tag);
+    return output.map(({ activationCodeHash, activationCodeEncrypted, ...tag }) => tag);
   }
   async tagStatus(id: string, data: dto.TagStatusDto) {
     const allowed = data.status === 'DISABLED' ? ['ACTIVE', 'UNCLAIMED'] : ['DISABLED'];
@@ -189,7 +219,7 @@ export class AppService {
     objectId(data.replacementTagId);
     const old = await Tag.findOneAndUpdate({ _id: objectId(id), status: 'ACTIVE', petId: { $exists: true }, ownerId: { $exists: true }, replacedByTagId: { $exists: false } }, { $set: { replacedByTagId: data.replacementTagId } }, { new: true });
     if (!old || !old.petId || !old.ownerId) throw new BadRequestException('Only an active linked tag can be replaced.');
-    const replacement = await Tag.findOneAndUpdate({ _id: objectId(data.replacementTagId), status: { $in: ['UNASSIGNED', 'UNCLAIMED'] }, ownerId: { $exists: false }, orderId: { $exists: false } }, { $set: { ownerId: old.ownerId, petId: old.petId, status: 'ACTIVE', activatedAt: new Date() }, $unset: { activationCodeHash: 1 } }, { new: true });
+    const replacement = await Tag.findOneAndUpdate({ _id: objectId(data.replacementTagId), status: { $in: ['UNASSIGNED', 'UNCLAIMED'] }, ownerId: { $exists: false }, orderId: { $exists: false } }, { $set: { ownerId: old.ownerId, petId: old.petId, status: 'ACTIVE', activatedAt: new Date() }, $unset: { activationCodeHash: 1, activationCodeEncrypted: 1 } }, { new: true });
     if (!replacement) {
       await Tag.updateOne({ _id: old._id, replacedByTagId: data.replacementTagId, status: 'ACTIVE' }, { $unset: { replacedByTagId: 1 } });
       throw new BadRequestException('Replacement must be an unowned, unallocated tag.');
