@@ -3,8 +3,8 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import { randomBytes } from 'node:crypto';
 import bcrypt from 'bcryptjs';
-import { bootstrap } from '../src/main';
-import { User, Product, Tag } from '../src/models';
+import { bootstrap } from '../src/main.js';
+import { User, Product, Tag } from '../src/models.js';
 async function start() {
   const mongo = await MongoMemoryServer.create();
   process.env.MONGODB_URI = mongo.getUri(); process.env.PORT = '4400'; process.env.FRONTEND_URL = 'http://localhost:3300'; process.env.API_URL = 'http://localhost:4400'; process.env.NODE_ENV = 'test'; process.env.SMTP_HOST = ''; process.env.SHIPPING_FEE = '99';

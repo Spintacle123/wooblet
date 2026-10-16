@@ -2,10 +2,10 @@ import { Controller, Get, Post, Patch, Delete, Body, Param, Req, Res, UseGuards,
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags, ApiCookieAuth, ApiOperation, ApiBody } from '@nestjs/swagger';
 import type { Response } from 'express';
-import { AuthGuard, AdminGuard, AuthRequest } from './security';
-import { AppService, objectId, safeUser } from './service';
-import { Pet, Tag, Product, Order, FinderReport, User, ScanEvent } from './models';
-import * as D from './dto';
+import { AuthGuard, AdminGuard, AuthRequest } from './security.js';
+import { AppService, objectId, safeUser } from './service.js';
+import { Pet, Tag, Product, Order, FinderReport, User, ScanEvent } from './models.js';
+import * as D from './dto.js';
 import QRCode from 'qrcode';
 import { randomBytes } from 'node:crypto';
 import { mkdir, writeFile } from 'node:fs/promises';

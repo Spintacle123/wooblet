@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-import { User, Product } from './models';
+import { User, Product } from './models.js';
 async function seed() {
   if (!process.env.MONGODB_URI) throw new Error('Set MONGODB_URI first.');
   await mongoose.connect(process.env.MONGODB_URI);

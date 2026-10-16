@@ -4,10 +4,10 @@ import { randomInt, randomBytes, createHash, createCipheriv, createDecipheriv } 
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
-import { User, Session, Pet, Tag, Product, Order, FinderReport, ScanEvent, Counter } from './models';
-import { hashToken, randomToken } from './security';
-import { publicPet, assertOrderTransition, priceItems } from './domain';
-import * as dto from './dto';
+import { User, Session, Pet, Tag, Product, Order, FinderReport, ScanEvent, Counter } from './models.js';
+import { hashToken, randomToken } from './security.js';
+import { publicPet, assertOrderTransition, priceItems } from './domain.js';
+import * as dto from './dto.js';
 export const safeUser = (u: any) => ({ _id: u._id, email: u.email, firstName: u.firstName, lastName: u.lastName, phone: u.phone, createdAt: u.createdAt, role: u.role, emailVerified: u.emailVerified });
 export function objectId(id: string) { if (!isValidObjectId(id)) throw new BadRequestException('Invalid identifier.'); return id; }
 function activationKey() { return createHash('sha256').update(`wooblet-activation:${process.env.JWT_REFRESH_SECRET}`).digest(); }

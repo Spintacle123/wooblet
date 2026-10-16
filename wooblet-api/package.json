@@ -52,5 +52,6 @@
     "mongodbMemoryServer": {
       "disablePostinstall": true
     }
-  }
+  },
+  "type": "module"
 }

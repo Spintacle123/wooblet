@@ -4,10 +4,10 @@ import assert from 'node:assert/strict';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import { randomBytes } from 'node:crypto';
-import { bootstrap } from '../src/main';
-import { User, Product, Tag, FinderReport, Session } from '../src/models';
+import { bootstrap } from '../src/main.js';
+import { User, Product, Tag, FinderReport, Session } from '../src/models.js';
 import bcrypt from 'bcryptjs';
-import { AppService } from '../src/service';
+import { AppService } from '../src/service.js';
 test('complete owner, finder and manual fulfillment journey with ownership boundaries', { timeout: 600000 }, async () => {
   const mongo = await MongoMemoryServer.create();
   process.env.MONGODB_URI = mongo.getUri(); process.env.FRONTEND_URL = 'http://localhost:3000'; process.env.API_URL = 'http://localhost:4000'; process.env.PORT = '0'; process.env.NODE_ENV = 'test';

@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException, ForbiddenException } from '@nestjs/common';
 import type { Request } from 'express';
 import jwt from 'jsonwebtoken';
-import { Session } from './models';
+import { Session } from './models.js';
 import { createHash, randomBytes } from 'node:crypto';
 export type AuthRequest = Request & { user: { id: string; role: string } };
 export const hashToken = (token: string) => createHash('sha256').update(token).digest('hex');

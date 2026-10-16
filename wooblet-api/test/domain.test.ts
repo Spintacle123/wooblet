@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { publicPet, assertOrderTransition, priceItems } from '../src/domain';
-import { DtoPipe, FoundDto, OrderDto } from '../src/dto';
+import { publicPet, assertOrderTransition, priceItems } from '../src/domain.js';
+import { DtoPipe, FoundDto, OrderDto } from '../src/dto.js';
 test('public pet privacy prevents contact, medical, owner and address disclosure', () => {
   const pet = { _id: 'private-id', ownerId: 'private-owner', name: 'Cooper', species: 'Dog', breed: 'Retriever', birthday: new Date('2020-01-01'), shippingAddress: { addressLine: 'private home' }, contact: { phone: 'secret', email: 'secret', ownerName: 'secret' }, medical: { allergies: 'secret' }, privacy: { showBreed: true }, lostMode: { active: false, message: 'private inactive message' } };
   const view = publicPet(pet);

@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import { pathToFileURL } from 'node:url';
 import 'dotenv/config';
 import { Module, Catch, ExceptionFilter, ArgumentsHost, HttpException, Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -9,9 +10,9 @@ import helmet from 'helmet';
 import { rateLimit } from 'express-rate-limit';
 import express from 'express';
 import { join } from 'node:path';
-import { AppService } from './service';
-import { AuthGuard, AdminGuard } from './security';
-import * as C from './controllers';
+import { AppService } from './service.js';
+import { AuthGuard, AdminGuard } from './security.js';
+import * as C from './controllers.js';
 @Catch()
 class ErrorFilter implements ExceptionFilter {
   catch(error: any, host: ArgumentsHost) {
@@ -62,4 +63,4 @@ export async function bootstrap() {
   Logger.log(`Wooblet API is listening on port ${process.env.PORT ?? 4001}`);
   return app;
 }
-if (require.main === module) bootstrap().catch(error => { console.error(error.message); process.exit(1); });
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) bootstrap().catch(error => { console.error(error.message); process.exit(1); });
