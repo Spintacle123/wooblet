@@ -1,22 +1,21 @@
 import 'reflect-metadata';
 import { pathToFileURL } from 'node:url';
-import { createRequire } from 'node:module';
 import 'dotenv/config';
 import { Module, Catch, ExceptionFilter, ArgumentsHost, HttpException, Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
-import type { HelmetOptions } from 'helmet';
+import helmetImport, { type HelmetOptions } from 'helmet';
 import { rateLimit } from 'express-rate-limit';
 import express from 'express';
 import { join } from 'node:path';
 import { AppService } from './service.js';
 import { AuthGuard, AdminGuard } from './security.js';
 import * as C from './controllers.js';
-// Helmet publishes a callable CommonJS entry; load it explicitly to avoid
-// default-import type differences in Vercel's TypeScript compiler.
-const helmet = createRequire(import.meta.url)('helmet') as (options?: Readonly<HelmetOptions>) => express.RequestHandler;
+// Keep the runtime import static so deployment tracing includes Helmet.
+// Vercel's compiler can infer the dual-package default as a module namespace.
+const helmet = helmetImport as unknown as (options?: Readonly<HelmetOptions>) => express.RequestHandler;
 @Catch()
 class ErrorFilter implements ExceptionFilter {
   catch(error: any, host: ArgumentsHost) {
