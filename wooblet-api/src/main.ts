@@ -66,4 +66,5 @@ export async function bootstrap() {
   Logger.log(`Wooblet API is listening on port ${process.env.PORT ?? 4001}`);
   return app;
 }
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) bootstrap().catch(error => { console.error(error.message); process.exit(1); });
+// Vercel imports this entrypoint rather than executing it as the main script.
+if (process.env.VERCEL === '1' || (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href)) bootstrap().catch(error => { console.error(error.message); process.exit(1); });
