@@ -29,7 +29,7 @@ class ErrorFilter implements ExceptionFilter {
 }
 @Module({ controllers: Object.values(C), providers: [AppService, AuthGuard, AdminGuard] })
 class AppModule {}
-export async function bootstrap() {
+export async function bootstrap(listen = true) {
   for (const key of ['MONGODB_URI', 'FRONTEND_URL', 'JWT_ACCESS_SECRET', 'JWT_REFRESH_SECRET']) if (!process.env[key]) throw new Error(`Set ${key} in wooblet-api/.env.`);
   for (const key of ['JWT_ACCESS_SECRET', 'JWT_REFRESH_SECRET']) if (process.env[key]!.length < 32 || process.env[key]!.includes('replace-with')) throw new Error(`${key} must be a random secret of at least 32 characters.`);
   if (process.env.JWT_ACCESS_SECRET === process.env.JWT_REFRESH_SECRET) throw new Error('Use different access and refresh secrets.');
@@ -62,9 +62,23 @@ export async function bootstrap() {
   if (process.env.NODE_ENV !== 'production') app.use('/uploads', express.static(join(process.cwd(), 'uploads')));
   const config = new DocumentBuilder().setTitle('Wooblet API').setDescription('Pet profiles, NFC identification, commerce, and operations.').setVersion('1.0').addCookieAuth('wb_access').build();
   SwaggerModule.setup('api/docs', app, SwaggerModule.createDocument(app, config));
-  await app.listen(Number(process.env.PORT ?? 4001), '0.0.0.0');
-  Logger.log(`Wooblet API is listening on port ${process.env.PORT ?? 4001}`);
+  if (listen) {
+    await app.listen(Number(process.env.PORT ?? 4001), '0.0.0.0');
+    Logger.log(`Wooblet API is listening on port ${process.env.PORT ?? 4001}`);
+  } else {
+    await app.init();
+  }
   return app;
 }
-// Vercel imports this entrypoint rather than executing it as the main script.
-if (process.env.VERCEL === '1' || (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href)) bootstrap().catch(error => { console.error(error.message); process.exit(1); });
+// Export a callable handler immediately; initialize Nest once on the first request.
+let application: ReturnType<typeof bootstrap> | undefined;
+export default async function handler(req: express.Request, res: express.Response) {
+  application ??= bootstrap(false).catch(error => {
+    application = undefined;
+    throw error;
+  });
+  const app = await application;
+  return app.getHttpAdapter().getInstance()(req, res);
+}
+
+if (process.env.VERCEL !== '1' && process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) bootstrap().catch(error => { console.error(error.message); process.exit(1); });
