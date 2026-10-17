@@ -1,0 +1,16 @@
+.banner { background: #30195b; color: #fff9ef; padding: 28px 0; }
+.inner { display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+.eyebrow { display: flex; align-items: center; gap: 8px; color: #f8d58e; font-size: 10px; font-weight: 800; letter-spacing: 1.6px; }
+.copy h2 { color: inherit; font-size: clamp(22px, 3vw, 32px); line-height: 1.2; margin: 9px 0; }
+.copy p { font-size: 12px; color: #e0d4f2; line-height: 1.6; margin: 0; }
+.clock { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; flex-shrink: 0; }
+.unit { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 78px; padding: 12px 10px; border: 1px solid #ffffff26; border-radius: 16px; background: #ffffff0d; }
+.unit strong { color: #f8d58e; font-size: 34px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.unit span { margin-top: 7px; font-size: 10px; color: #e0d4f2; }
+@media (max-width: 760px) {
+  .inner { flex-direction: column; align-items: stretch; gap: 20px; text-align: center; }
+  .eyebrow { justify-content: center; }
+  .clock { width: 100%; max-width: 360px; margin-inline: auto; gap: 8px; }
+  .unit { min-width: 0; padding: 12px 6px; }
+  .unit strong { font-size: 28px; }
+}
