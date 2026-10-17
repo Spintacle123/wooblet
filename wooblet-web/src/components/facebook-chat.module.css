@@ -1,0 +1,13 @@
+.widget { position: fixed; right: max(22px, env(safe-area-inset-right)); bottom: max(22px, env(safe-area-inset-bottom)); z-index: 80; display: flex; flex-direction: column; align-items: flex-end; gap: 14px; }
+.bubble { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 58px; padding: 14px 20px; border: 1px solid #ffffff40; border-radius: 32px; background: #ff8fb9; color: #2c185c; box-shadow: 0 6px 28px #180c3e44; cursor: pointer; font-weight: 800; font-size: 14px; }
+.bubble:hover { background: #ffa2c5; }
+.bubble:focus-visible, .panel button:focus-visible, .body a:focus-visible { outline: 3px solid #fbd86b; outline-offset: 4px; }
+.panel { width: min(340px, calc(100vw - 36px)); border-radius: 20px; overflow: hidden; background: #fff; border: 1px solid #e0d3f4; box-shadow: 0 12px 48px #180c3e44; }
+.heading { display: flex; align-items: center; gap: 10px; background: #2c185c; color: #fff; padding: 18px; }
+.heading strong { font-size: 14px; flex: 1; }
+.heading button { display: grid; place-items: center; min-width: 32px; min-height: 32px; color: #fff; background: transparent; border: 0; cursor: pointer; }
+.body { padding: 20px; }
+.body p { color: #625373; font-size: 13px; line-height: 1.7; margin: 0 0 18px; }
+.body a { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 12px; border-radius: 24px; background: #6940c9; color: #fff; font-size: 12px; font-weight: 800; }
+.body small { display: block; text-align: center; font-size: 10px; line-height: 1.5; color: #81708e; margin-top: 12px; }
+@media (max-width: 640px) { .widget { right: 16px; bottom: max(16px, env(safe-area-inset-bottom)); } .bubble { min-height: 54px; padding: 13px 16px; } }
