@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { Sparkles } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { LAUNCH_AT } from '@/lib/launch';
 import styles from './launch-countdown.module.css';
 
-// One shared deadline for every visitor; midnight in Manila on launch day.
-const LAUNCH_AT = new Date('2026-11-16T00:00:00+08:00').getTime();
-
-export function LaunchCountdown() {
+export function LaunchCountdown({ fullPage = false }: { fullPage?: boolean }) {
+  const router = useRouter();
   const [remaining, setRemaining] = useState<number | null>(null);
   useEffect(() => {
     const update = () => setRemaining(Math.max(0, Math.ceil((LAUNCH_AT - Date.now()) / 1000)));
@@ -24,13 +24,16 @@ export function LaunchCountdown() {
     ['Seconds', seconds % 60],
   ] as const;
   const launched = remaining === 0;
+  useEffect(() => {
+    if (fullPage && launched) router.refresh();
+  }, [fullPage, launched, router]);
 
-  return <section className={styles.banner} aria-labelledby="launch-title">
+  return <section className={`${styles.banner} ${fullPage ? styles.fullPage : ''}`} aria-label={fullPage ? 'Launch countdown' : undefined} aria-labelledby={fullPage ? undefined : 'launch-title'}>
     <div className={`container ${styles.inner}`}>
       <div className={styles.copy}>
         <span className={styles.eyebrow}><Sparkles size={16} aria-hidden="true" /> THE COUNTDOWN IS ON</span>
         <h2 id="launch-title">{launched ? 'We’re live. Let the joy begin!' : 'A little joy is on its way.'}</h2>
-        <p>Launching <time dateTime="2026-11-16T00:00:00+08:00">November 16, 2026</time> · 12:00 AM Philippine time</p>
+        <p>Launching <time dateTime="2026-11-30T00:00:00+08:00">November 30, 2026</time> · 12:00 AM Philippine time</p>
       </div>
       {!launched && <div className={styles.clock} role="timer" aria-live="off" aria-label="Time until launch">
         {units.map(([label, value]) => <div className={styles.unit} key={label}>
