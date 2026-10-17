@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { Analytics } from '@vercel/analytics/next';
 import { AppProvider } from '@/lib/store';
+import { FacebookChat } from '@/components/facebook-chat';
 import './globals.css';
 import './theme.css';
 import './hero.css';
@@ -15,5 +16,5 @@ export const metadata: Metadata = {
   description: 'Explore 3D printed pet tags, clickers, letters, characters, cute animals, and lamps from WoobleWorks.',
 };
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return <html lang="en" data-scroll-behavior="smooth" className={displayFont.variable}><body><AppProvider>{children}</AppProvider><Analytics /></body></html>;
+  return <html lang="en" data-scroll-behavior="smooth" className={displayFont.variable}><body><AppProvider>{children}</AppProvider><FacebookChat /><Analytics /></body></html>;
 }
